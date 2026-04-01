@@ -1,6 +1,7 @@
 import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
 
 import appCss from "@workspace/ui/globals.css?url"
+import { getThemeServerFn } from "@/lib/theme"
 
 export const Route = createRootRoute({
   head: () => ({
@@ -23,12 +24,15 @@ export const Route = createRootRoute({
       },
     ],
   }),
+  beforeLoad: async () => ({ theme: await getThemeServerFn() }),
   shellComponent: RootDocument,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { theme } = Route.useRouteContext()
+
   return (
-    <html lang="en">
+    <html className={theme} lang="en">
       <head>
         <HeadContent />
       </head>
