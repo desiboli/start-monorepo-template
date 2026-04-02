@@ -1,9 +1,7 @@
-import { Hono } from 'hono'
+import { createApp } from "./app"
+export type { ApiRoutes } from "./routes"
 
-const app = new Hono()
-
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const app = createApp()
 
 export default app
+export type AppType = typeof app

@@ -1,16 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@workspace/ui/components/button"
 import { ModeSwitcher } from "@/components/mode-switcher"
+import { api } from "@/lib/api"
 
-export const Route = createFileRoute("/")({ component: App })
+export const Route = createFileRoute("/")({
+  loader: async () => {
+    const response = await api.hello.$get({
+      query: {
+        name: "TanStack",
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch the hello message from the API")
+    }
+
+    return response.json()
+  },
+  component: App
+})
 
 function App() {
+  const { message } = Route.useLoaderData()
+
   return (
     <div className="flex min-h-svh p-6">
       <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
         <div>
           <ModeSwitcher />
           <h1 className="font-medium">Project ready!</h1>
+          <p>{message}</p>
           <p>You may now add components and start building.</p>
           <p>We&apos;ve already added the button component for you.</p>
           <Button className="mt-2">Button</Button>
