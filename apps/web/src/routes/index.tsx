@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@workspace/ui/components/button"
+
 import { ModeSwitcher } from "@/components/mode-switcher"
 import { api } from "@/lib/api"
 
@@ -17,7 +18,7 @@ export const Route = createFileRoute("/")({
 
     return response.json()
   },
-  component: App
+  component: App,
 })
 
 function App() {
